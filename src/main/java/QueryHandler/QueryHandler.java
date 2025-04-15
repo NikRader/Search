@@ -1,5 +1,9 @@
 package QueryHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class QueryHandler {
 
     public static final int MIN_WORD_LENGTH = 2;
@@ -12,6 +16,11 @@ public class QueryHandler {
     public static String checkQuery(String query) {
         // To Do
         return query;
+    }
+
+    public static void main(String[] args) {
+
+
     }
 
 }
