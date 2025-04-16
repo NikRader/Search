@@ -15,7 +15,6 @@ public class TextFile {
 
         try (FileWriter writer = new FileWriter("UserSearches.txt")) {
             for (String str : goodSearches) {
-                // Записываем только непустые строки
                 if (str != null && !str.isBlank()) {
                     writer.write(str + '\n');
                 }

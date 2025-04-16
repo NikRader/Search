@@ -14,10 +14,6 @@ public class RelevantSearch {
             throw new IllegalArgumentException("Input parameters cannot be null");
         }
 
-        /*if (descriptions.size() != guidsList.size()) {
-            throw new IllegalArgumentException("Descriptions and GUIDs lists must have same size");
-        }*/
-
         TFIDFformula tfidf = new TFIDFformula();
         long startTime = System.currentTimeMillis();
         // Преобразуем описания в список токенов

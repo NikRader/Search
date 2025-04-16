@@ -1,5 +1,4 @@
 package createJSON;
-
 import java.util.List;
 
 public class PackResponse {
@@ -11,9 +10,5 @@ public class PackResponse {
         this.search = search;
         this.result = result;
         this.time = time;
-    }
-    private String getResponse(){
-        String one_respose = "hey"+""+"";
-        return  one_respose;
     }
 }

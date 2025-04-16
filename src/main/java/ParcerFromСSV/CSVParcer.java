@@ -9,14 +9,12 @@ import java.util.List;
 
 public class CSVParcer {
     public static List<List<String>> getInfoFromCSV() throws IOException {
-
         List<String> guidList = new ArrayList<>();
         List<String> discriptionList = new ArrayList<>();
         List<String> records = Files.readAllLines(Paths.get("reports.csv"));
         String separator = "\\|";
         for(String record: records){
             String[] updateRecord = record.split(separator);
-           // System.out.println(countRecord+") updateRecord -> GUID: " + updateRecord[0]+"   name: "+ updateRecord[1]+"   discript: "+ updateRecord[2]);
             discriptionList.add(updateRecord[2].trim());
             guidList.add(updateRecord[0].trim());
         }
