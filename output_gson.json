@@ -1,15 +1,6 @@
 {
-  "initTime": 20319,
+  "initTime": 26023,
   "result": [
-    {
-      "search": "Отчет по имуществу организации",
-      "result": [
-        "849a494c-30f6-44c7-b0fb-483b9e56d9ed",
-        "accfc5ed-ac80-45ec-8713-0a503de96d2d",
-        "0d7b2ef9-a26f-43c4-9e3b-be8df7a9ce7b"
-      ],
-      "time": 44
-    },
     {
       "search": "Число работников компании в разрезе регионов РФ",
       "result": [
@@ -17,7 +8,16 @@
         "71d7b126-f9c6-4c66-9eb4-2ca3077b93e9",
         "50df62f9-c6c7-4cb1-a19b-1da166ae9322"
       ],
-      "time": 44
+      "time": 73
+    },
+    {
+      "search": "Отчет по имуществу организации",
+      "result": [
+        "849a494c-30f6-44c7-b0fb-483b9e56d9ed",
+        "accfc5ed-ac80-45ec-8713-0a503de96d2d",
+        "0d7b2ef9-a26f-43c4-9e3b-be8df7a9ce7b"
+      ],
+      "time": 22
     }
   ]
 }
