@@ -6,6 +6,7 @@ import SearchAlgoritm.RelevantSearch;
 import createJSON.CreateJsonWithGson;
 import createJSON.PackJson;
 import createJSON.PackResponse;
+import СommandLineOptions.OptionsCLI;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,17 +18,15 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         programStartTime = System.currentTimeMillis();
-        System.out.println("Добро пожаловать!");
+        // Параметры консоли
+        OptionsCLI.showOptions(args);
+
         // Парсинг строк из CSV-файла
         List<List<String>> info = CSVParcer.getInfoFromCSV();
         // Пользовательский ввод
         List<String> searches = SearchesScanner.SearchesScanner();
         initTime = (int) (System.currentTimeMillis() - programStartTime);
-
-
-
-
-
+        // Обработка запросов пользователя
         List<String> goodSearches = QueryHandler.checkQuery(searches);
 
         List<String> guidsList = info.get(0);
@@ -42,9 +41,5 @@ public class Main {
         PackJson packJson = new PackJson(initTime, packResponseList);
         CreateJsonWithGson.create(packJson);
 
-      /*  //ToDo - Компановка json c результатами
-      Отчет по имуществу организации
-      Отчет по возврату НДС
-        */
     }
 }
