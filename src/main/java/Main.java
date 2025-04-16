@@ -1,14 +1,50 @@
+import ParcerFromСSV.CSVParcer;
+import QueryHandler.QueryHandler;
 import QueryHandler.SearchesScanner;
+import QueryHandler.TextFile;
 import SearchAlgoritm.RelevantSearch;
+import createJSON.CreateJsonWithGson;
+import createJSON.PackJson;
+import createJSON.PackResponse;
 
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) {
+    private static long programStartTime;
+    private static int initTime;
+
+    public static void main(String[] args) throws IOException {
+        programStartTime = System.currentTimeMillis();
         System.out.println("Добро пожаловать!");
-        List<String> searches =
-        SearchesScanner.SearchesScanner();
-        RelevantSearch.relevantSearch(searches,);
+        // Парсинг строк из CSV-файла
+        List<List<String>> info = CSVParcer.getInfoFromCSV();
+        // Пользовательский ввод
+        List<String> searches = SearchesScanner.SearchesScanner();
+        initTime = (int) (System.currentTimeMillis() - programStartTime);
+
+
+
+
+
+        List<String> goodSearches = QueryHandler.checkQuery(searches);
+
+        List<String> guidsList = info.get(0);
+        List<String> discriptsList = info.get(1);
+        TextFile.create(goodSearches);
+
+        List<PackResponse> packResponseList = new ArrayList<>();
+        for (String search : goodSearches) {
+            PackResponse packResponse = RelevantSearch.relevantSearch(discriptsList, guidsList, search);
+            packResponseList.add(packResponse);
+        }
+        PackJson packJson = new PackJson(initTime, packResponseList);
+        CreateJsonWithGson.create(packJson);
+
+      /*  //ToDo - Компановка json c результатами
+      Отчет по имуществу организации
+      Отчет по возврату НДС
+        */
     }
 }

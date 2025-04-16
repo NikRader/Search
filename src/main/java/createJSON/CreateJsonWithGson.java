@@ -10,7 +10,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CreateJsonWithGson {
-
+    public static void create(PackJson packJson){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter("output_gson.json")) {
+            gson.toJson(packJson, writer);
+            System.out.println("Файл успешно создан: output_gson.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public static void main(String[] args) {
         String[] queries = {
                 "Как получить отчет по суммам налогового вычета за 2023 год?",
@@ -37,12 +45,6 @@ public class CreateJsonWithGson {
 
         PackJson packJason = new PackJson(100, packResponses);
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        try (FileWriter writer = new FileWriter("output_gson.json")) {
-            gson.toJson(packJason, writer);
-            System.out.println("Файл успешно создан: output_gson.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }

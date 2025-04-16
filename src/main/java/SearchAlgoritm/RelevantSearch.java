@@ -1,23 +1,37 @@
 package SearchAlgoritm;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import createJSON.PackJson;
+import createJSON.PackResponse;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class RelevantSearch {
 
-    public static void relevantSearch(List<String> rawDocs, String search) {
-        TFIDFformula tfidf = new TFIDFformula();
+    public static PackResponse relevantSearch(List<String> descriptions, List<String> guidsList, String search) {
+        // Проверка входных параметров
+        if (descriptions == null || guidsList == null || search == null) {
+            throw new IllegalArgumentException("Input parameters cannot be null");
+        }
 
-        List<List<String>> docs = rawDocs.stream()
+        /*if (descriptions.size() != guidsList.size()) {
+            throw new IllegalArgumentException("Descriptions and GUIDs lists must have same size");
+        }*/
+
+        TFIDFformula tfidf = new TFIDFformula();
+        long startTime = System.currentTimeMillis();
+        // Преобразуем описания в список токенов
+        List<List<String>> docs = descriptions.stream()
+                .filter(Objects::nonNull)  // Фильтруем null-описания
                 .map(line -> Arrays.asList(line.toLowerCase().split("\\s+")))
                 .collect(Collectors.toList());
 
-        List<String> searchTerms = Arrays.asList(search.toLowerCase().split("\\s+"));
+        // Токены поискового запроса
+        List<String> searchTerms = Arrays.stream(search.toLowerCase().split("\\s+"))
+                .filter(term -> !term.isEmpty())
+                .collect(Collectors.toList());
 
-        // Ранжирование документов по суммарному TF-IDF по словам из запроса
+        // Ранжирование документов
         Map<Integer, Double> docScores = new HashMap<>();
         for (int i = 0; i < docs.size(); i++) {
             List<String> doc = docs.get(i);
@@ -25,38 +39,23 @@ public class RelevantSearch {
             for (String term : searchTerms) {
                 score += tfidf.tfIdf(doc, docs, term);
             }
-            docScores.put(i, score);
+            if (score > 0.0) {
+                docScores.put(i, score);
+            }
         }
-
-        // Сортировка по релевантности (по убыванию)
-        List<Map.Entry<Integer, Double>> sortedDocs = docScores.entrySet().stream()
-                .sorted((e1, e2) -> Double.compare(e2.getValue(), e1.getValue()))
+        long endTime = System.currentTimeMillis();
+        long time =  (endTime - startTime);
+        // Сортировка и выбор топ-3 результатов
+        List<String> result = docScores.entrySet().stream()
+                .sorted(Map.Entry.<Integer, Double>comparingByValue().reversed())
+                .limit(3)
+                .map(entry -> {
+                    int index = entry.getKey();
+                    return index < guidsList.size() ? guidsList.get(index) : null;
+                })
+                .filter(Objects::nonNull)  // Фильтруем null GUIDs
                 .collect(Collectors.toList());
-
-        // Вывод результатов
-        System.out.println(" Запрос: " + search);
-        System.out.println("Релевантные строки:");
-        for (Map.Entry<Integer, Double> entry : sortedDocs) {
-            int index = entry.getKey();
-            double score = entry.getValue();
-            System.out.printf(" → \"%s\" (score: %.4f)%n", rawDocs.get(index), score);
-        }
-    }
-
-    public static void main(String[] args) {
-
-        String search = "сидит  ";
-
-        // Документы (каждая строка — документ)
-        List<String> rawDocs = Arrays.asList(
-                "кошка сидит на окне",
-                "собака гуляет в парке",
-                "на окне лежит кот",
-                "птица летит по небу"
-        );
-
-        relevantSearch(rawDocs, search);
-
+        PackResponse pack = new PackResponse(search,result, (int) time);
+        return pack;
     }
 }
-
