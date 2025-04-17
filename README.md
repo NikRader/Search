@@ -19,4 +19,5 @@
 ![1](https://github.com/user-attachments/assets/4b8e9b15-260a-4d87-a9d4-7d29cd3deffd)
 3. Программа сохраняет список запросов в txt-файл
 ![2](https://github.com/user-attachments/assets/7666a260-84bb-4a8a-bb9b-bb02fbe6b117)
-4. После завершения релевантного поиска
+4. После завершения релевантного поиска происходит запись результатов в json-файл
+![3](https://github.com/user-attachments/assets/913ee48d-2503-4b1c-bc2f-cdae6947ddc8)
